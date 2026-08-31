@@ -1,5 +1,8 @@
 # cc-pocket relay — deploy runbook
 
+> Deploying a personal relay on Zeabur instead of this systemd/Caddy host? Use the
+> [Zeabur Docker runbook](zeabur/README.md).
+
 Infra deployment for the **cc-pocket relay** (Kotlin/JVM Ktor app). The relay forwards an
 opaque, end-to-end-encrypted binary data plane and stores only fingerprints / pubkeys / hashes
 (zero-knowledge). It binds **loopback only**; **Caddy** terminates TLS in front of it.

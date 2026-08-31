@@ -1,0 +1,32 @@
+# syntax=docker/dockerfile:1
+
+FROM eclipse-temurin:17-jdk-jammy AS builder
+
+WORKDIR /workspace
+COPY . .
+RUN chmod +x gradlew \
+    && ./gradlew :relay:installDist --no-daemon -Dkotlin.compiler.execution.strategy=in-process
+
+FROM eclipse-temurin:17-jre-jammy
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl gosu \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --system --gid 10001 ccpocket \
+    && useradd --system --uid 10001 --gid ccpocket --home-dir /nonexistent --shell /usr/sbin/nologin ccpocket \
+    && install -d -o ccpocket -g ccpocket /data
+
+COPY --from=builder /workspace/relay/build/install/cc-pocket-relay /opt/cc-pocket-relay
+
+ENV PORT=9000 \
+    JAVA_OPTS="-Xms64m -Xmx256m"
+
+EXPOSE 9000
+VOLUME ["/data"]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS "http://127.0.0.1:${PORT:-9000}/healthz" || exit 1
+
+# Start as root only long enough to make a fresh Zeabur volume writable, then
+# drop privileges before the JVM opens SQLite or accepts traffic.
+CMD ["/bin/sh", "-c", "chown ccpocket:ccpocket /data && exec gosu ccpocket /opt/cc-pocket-relay/bin/cc-pocket-relay --host 0.0.0.0 --port \"${PORT:-9000}\" --db /data/relay.db"]

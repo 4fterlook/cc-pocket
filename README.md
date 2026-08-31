@@ -177,7 +177,7 @@ Build the app: Android via `./gradlew :mobile:composeApp:assembleDebug`; iOS via
 - [User manual](https://pocket.ark-nexus.cc/manual/en/) · [Smart support, no sign-in](https://pocket.ark-nexus.cc/support/)
 - Security model & threat analysis — [`docs/SECURITY.md`](docs/SECURITY.md)
 - Run / operate the daemon — [`docs/RUN.md`](docs/RUN.md) · User guide (中文) — [`docs/USAGE.md`](docs/USAGE.md)
-- Relay deployment (Caddy + Cloudflare + systemd) — [`deploy/README.md`](deploy/README.md)
+- Relay deployment — [Caddy + systemd](deploy/README.md) · [Zeabur Docker](deploy/zeabur/README.md)
 - Product media pipeline — [`marketing/site/README.md`](marketing/site/README.md)
 - Design deliverables — [`docs/design/`](docs/design/) · Provenance / clean-room statement — [`docs/ANTIPLAGIARISM.md`](docs/ANTIPLAGIARISM.md)
 

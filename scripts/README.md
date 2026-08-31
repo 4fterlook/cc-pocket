@@ -15,6 +15,7 @@ jpackage 不能跨平台编译，所以每个平台的产物都在对应 OS 上�
 | `release-windows.ps1` | daemon Windows zip | Windows |
 | `release-harmony.sh` | HarmonyOS 签名 HAP + AGC `.app`（CI 路径需 self-hosted DevEco runner） | macOS + DevEco Studio |
 | `ios-fir.sh` | **iOS IPA** 签名并发布到 fir.im 做真机测试分发（`development` 开发版 / `release-testing` ad-hoc）。token 放 `scripts/.fir-token`（已 gitignore）；设备需先登记 UDID。详见脚本头注释 | macOS |
+| `pair-self-hosted.sh` | 从本机 daemon 生成包含自定义 relay 的完整配对链接；自托管时不能只用六位码 | macOS / Linux / WSL |
 
 > 桌面 App 的 Windows MSI / 便携 zip 目前只走 CI（`build-windows.yml` 的 `windows-app` job + `release.yml` 的 `windows-desktop` job）；Linux 桌面包（.deb/AppImage）尚未配置（`build.gradle` targetFormats 只有 Dmg、Msi）。
 
