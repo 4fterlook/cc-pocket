@@ -9,6 +9,9 @@ RUN chmod +x gradlew \
 
 FROM eclipse-temurin:17-jre-jammy
 
+LABEL org.opencontainers.image.source="https://github.com/4fterlook/cc-pocket" \
+      org.opencontainers.image.licenses="MIT"
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl gosu \
     && rm -rf /var/lib/apt/lists/* \
@@ -17,6 +20,7 @@ RUN apt-get update \
     && install -d -o ccpocket -g ccpocket /data
 
 COPY --from=builder /workspace/relay/build/install/cc-pocket-relay /opt/cc-pocket-relay
+COPY LICENSE /licenses/cc-pocket/LICENSE
 
 ENV PORT=9000 \
     JAVA_OPTS="-Xms64m -Xmx256m"
