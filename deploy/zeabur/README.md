@@ -12,6 +12,19 @@ Do not deploy a second Traefik service. Zeabur's HTTP port and custom-domain bin
 
 ## 1. Deploy from GitHub
 
+For the repository fork in this project, deploy the checked-in Zeabur template:
+
+```bash
+zeabur template deploy \
+  --file deploy/zeabur/template.yaml \
+  --project-id YOUR_PROJECT_ID \
+  --var PUBLIC_DOMAIN=relay.planet-corp.cn
+```
+
+The template creates the GitHub service, port, health check, `/data` volume, and domain binding together.
+
+To configure the same service manually instead:
+
 1. Push the synchronized fork and these deployment files to GitHub.
 2. Create a Zeabur project, preferring Hong Kong and falling back to Singapore.
 3. Add a **GitHub** service from the fork's `main` branch.

@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: cc-pocket relay
+spec:
+  description: A private cc-pocket E2E relay built from the synchronized GitHub fork.
+  tags:
+    - Tool
+    - Kotlin
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Relay domain
+      description: Public HTTPS/WSS domain for the relay.
+  readme: |-
+    # cc-pocket relay
+
+    This template builds `Dockerfile.relay`, exposes the Ktor relay on port 9000,
+    and persists the SQLite database on `/data`.
+
+    Keep the service at exactly one replica because live WebSocket state is
+    process-local.
+  services:
+    - name: cc-pocket-relay
+      template: GIT
+      domainKey: PUBLIC_DOMAIN
+      spec:
+        source:
+          source: GITHUB
+          repo: 1344133894
+          branch: main
+          rootDirectory: /
+        ports:
+          - id: web
+            port: 9000
+            type: HTTP
+        volumes:
+          - id: relay-data
+            dir: /data
+        env:
+          PORT:
+            default: "9000"
+          JAVA_OPTS:
+            default: -Xms64m -Xmx256m
+          ZBPACK_DOCKERFILE_PATH:
+            default: Dockerfile.relay
+        healthCheck:
+          type: HTTP
+          port: web
+          http:
+            path: /healthz
