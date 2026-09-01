@@ -8,11 +8,6 @@ spec:
   tags:
     - Tool
     - Kotlin
-  variables:
-    - key: PUBLIC_DOMAIN
-      type: DOMAIN
-      name: Relay domain
-      description: Public HTTPS/WSS domain for the relay.
   readme: |-
     # cc-pocket relay
 
@@ -24,7 +19,6 @@ spec:
   services:
     - name: cc-pocket-relay
       template: GIT
-      domainKey: PUBLIC_DOMAIN
       spec:
         source:
           source: GITHUB

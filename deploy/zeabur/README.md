@@ -17,11 +17,18 @@ For the repository fork in this project, deploy the checked-in Zeabur template:
 ```bash
 zeabur template deploy \
   --file deploy/zeabur/template.yaml \
-  --project-id YOUR_PROJECT_ID \
-  --var PUBLIC_DOMAIN=relay.planet-corp.cn
+  --project-id YOUR_PROJECT_ID
 ```
 
-The template creates the GitHub service, port, health check, `/data` volume, and domain binding together.
+The template creates the GitHub service, port, health check, and `/data` volume together. Zeabur's `DOMAIN` template variable creates a `*.zeabur.app` domain; bind the custom domain separately after the service exists:
+
+```bash
+zeabur domain create \
+  --name cc-pocket-relay \
+  --env-id YOUR_ENVIRONMENT_ID \
+  --domain relay.planet-corp.cn \
+  --yes
+```
 
 To configure the same service manually instead:
 
